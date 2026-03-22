@@ -95,7 +95,7 @@ class AIPricingEngine {
                     + prompt.replace("\n", "\\n") + "\"}],"
                     + "\"max_tokens\":20,\"temperature\":0.3}";
 
-            HttpURLConnection conn = (HttpURLConnection) new URL(API_URL).openConnection();
+            HttpURLConnection conn = (HttpURLConnection) URI.create(API_URL).toURL().openConnection();
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Content-Type", "application/json");
             conn.setRequestProperty("Authorization", "Bearer " + apiKey);
