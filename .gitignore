@@ -1,2 +1,6 @@
 config.properties
 .DS_Store
+*.class
+*.log
+*.DS_Store
+
