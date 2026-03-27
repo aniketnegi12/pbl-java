@@ -12,8 +12,8 @@ class Product {
     String   name;
     double   costPrice;
     double[] competitorPrices;
-    String   demandLevel;   // HIGH / MEDIUM / LOW  or  1-10
-    double   profitMargin;  // e.g. 20 = 20%
+    String   demandLevel;   
+    double   profitMargin;  
 
     Product(String name, double costPrice, double[] competitorPrices,
             String demandLevel, double profitMargin) {
@@ -25,7 +25,7 @@ class Product {
     }
 }
 
-// ── AIPricingEngine: OpenAI first, rule-based fallback ───────────
+// ── AIPricingEngine ───────────
 class AIPricingEngine {
 
     private static final String API_URL = "https://api.openai.com/v1/chat/completions";
@@ -139,7 +139,7 @@ class AIPricingEngine {
     }
 }
 
-// ── PricingAlgorithm: System Architecture / Integration Layer ────
+// ── PricingAlgorithm ────
 class PricingAlgorithm {
 
     private final AIPricingEngine engine;
@@ -203,13 +203,13 @@ class PricingAlgorithm {
         System.out.printf ("│ Season        : %-24s│%n", season);
         System.out.printf ("│ Engine Used   : %-24s│%n", usedAI ? "OpenAI GPT" : "Rule-Based");
         System.out.println("├─────────────────────────────────────────┤");
-        System.out.printf ("│ ✅ Suggested Price : ₹%-19.2f│%n", suggested);
-        System.out.printf ("│ 💰 Profit          : ₹%-19.2f│%n", profit);
-        System.out.printf ("│ 📈 Profit %%        : %-19.2f│%n", profitPct);
-        System.out.printf ("│ 📊 Pref. Satisf.   : %-19.2f│%n", Math.round(prefSat * 100) / 100.0);
-        System.out.printf ("│ ⚙  Util. Efficiency: %-19.2f│%n", Math.round(utilEff * 100) / 100.0);
+        System.out.printf ("│ Suggested Price : ₹%-19.2f│%n", suggested);
+        System.out.printf ("│ Profit          : ₹%-19.2f│%n", profit);
+        System.out.printf ("│ Profit %%        : %-19.2f│%n", profitPct);
+        System.out.printf ("│ Pref. Satisf.   : %-19.2f│%n", Math.round(prefSat * 100) / 100.0);
+        System.out.printf ("│ Util. Efficiency: %-19.2f│%n", Math.round(utilEff * 100) / 100.0);
         System.out.println("├─────────────────────────────────────────┤");
-        System.out.printf ("│ 💡 %-38s│%n", insight.length() > 38 ? insight.substring(0, 38) : insight);
+        System.out.printf ("│ %-38s│%n", insight.length() > 38 ? insight.substring(0, 38) : insight);
         System.out.println("└─────────────────────────────────────────┘\n");
     }
 
@@ -226,28 +226,42 @@ class PricingAlgorithm {
 }
 
 // ── Main: run all test cases ─────────────────────────────────────
+import java.util.*;
+
 public class Member1Module {
 
     public static void main(String[] args) {
 
+        Scanner sc = new Scanner(System.in);
         PricingAlgorithm algo = new PricingAlgorithm();
-
-        System.out.println("=== Member 1 — AI Pricing Engine Tests ===\n");
-
-        algo.run(new Product("Winter Jacket",  1500, new double[]{2200,2400,2300}, "VERY_HIGH", 25), "PEAK");
-        algo.run(new Product("Nike Shoes",      800, new double[]{1100,1050,1200}, "HIGH",      20), "NORMAL");
-        algo.run(new Product("Coffee Mug",       80, new double[]{120,130,110},    "MEDIUM",    15), "NORMAL");
-        algo.run(new Product("Sunscreen",       150, new double[]{200,210,190},    "LOW",       10), "OFF");
-        algo.run(new Product("Xmas Deco",        50, new double[]{80,90,70},       "VERY_LOW",   5), "OFF");
-
-        // Profit protection test
-        algo.run(new Product("Laptop",        45000, new double[]{46000,45500},    "LOW",       15), "NORMAL");
-
-        // Numeric demand score (from UI slider)
-        algo.run(new Product("Headphones",     1200, new double[]{1800,1750,1900}, "8",         20), "NORMAL");
-
-        // Error cases
-        algo.run(new Product("Bad Item",          0, new double[]{100,120},        "HIGH",      20), "NORMAL");
-        algo.run(new Product("No Competitors",  500, new double[]{},               "HIGH",      20), "NORMAL");
+        System.out.println("=== AI Pricing Engine ===\n");
+        System.out.print("Enter number of products: ");
+        int n = sc.nextInt();
+        sc.nextLine(); 
+        for (int i = 0; i < n; i++) {
+            System.out.println("\n--- Enter details for product " + (i + 1) + " ---");
+            System.out.print("Product Name: ");
+            String name = sc.nextLine();
+            System.out.print("Base Price: ");
+            int basePrice = sc.nextInt();
+            System.out.print("Number of competitors: ");
+            int compCount = sc.nextInt();
+            double[] competitors = new double[compCount];
+            for (int j = 0; j < compCount; j++) {
+                System.out.print("Competitor price " + (j + 1) + ": ");
+                competitors[j] = sc.nextDouble();
+            }
+            sc.nextLine();
+            System.out.print("Demand (VERY_HIGH / HIGH / MEDIUM / LOW / VERY_LOW or number): ");
+            String demand = sc.nextLine();
+            System.out.print("Discount (%): ");
+            int discount = sc.nextInt();
+            sc.nextLine(); 
+            System.out.print("Season (PEAK / NORMAL / OFF): ");
+            String season = sc.nextLine();
+            Product product = new Product(name, basePrice, competitors, demand, discount);
+            algo.run(product, season);
+        }
+        sc.close();
     }
 }
