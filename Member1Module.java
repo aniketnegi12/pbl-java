@@ -1,13 +1,8 @@
-// ================================================================
-// Member 1 - AI Pricing Engine + System Architecture
-// AI-Enabled Online Product Price and Profit Extension System
-// ================================================================
-
 import java.io.*;
 import java.net.*;
 import java.nio.charset.StandardCharsets;
 
-// ── Product: stores all inputs ───────────────────────────────────
+// ── Product: stores all inputs 
 class Product {
     String   name;
     double   costPrice;
@@ -25,7 +20,7 @@ class Product {
     }
 }
 
-// ── AIPricingEngine ───────────
+// ── AIPricingEngine 
 class AIPricingEngine {
 
     private static final String API_URL = "https://api.openai.com/v1/chat/completions";
