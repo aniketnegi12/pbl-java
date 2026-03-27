@@ -41,7 +41,7 @@ public class DatabaseManager {
             Class.forName(DRIVER);
             connection = DriverManager.getConnection(DB_URL);
             connection.setAutoCommit(true);          // default: auto-commit ON
-            LOGGER.info("✅ Database connected: " + DB_URL);
+            LOGGER.info("Database connected: " + DB_URL);
             initializeSchema();
         } catch (ClassNotFoundException e) {
             LOGGER.log(Level.SEVERE, "SQLite JDBC driver not found. Add sqlite-jdbc.jar to classpath.", e);
@@ -180,7 +180,7 @@ public class DatabaseManager {
             stmt.execute("CREATE INDEX IF NOT EXISTS idx_history_product   ON pricing_history(product_id);");
             stmt.execute("CREATE INDEX IF NOT EXISTS idx_competitor_product ON competitor_prices(product_id);");
 
-            LOGGER.info("✅ Schema initialised (tables: products, pricing_history, competitor_prices).");
+            LOGGER.info(" Schema initialised (tables: products, pricing_history, competitor_prices).");
         }
     }
 
