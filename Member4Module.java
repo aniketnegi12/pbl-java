@@ -1,5 +1,3 @@
-// javac -encoding UTF-8 Member4Module.java
-// java Member4Module
 import javax.swing.*;
 import javax.swing.border.*;
 import java.awt.*;
