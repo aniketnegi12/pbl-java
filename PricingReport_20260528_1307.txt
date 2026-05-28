@@ -1,0 +1,19 @@
+══════════════════════════════════
+  AI PRICING REPORT
+  2026-05-28 13:07
+══════════════════════════════════
+Product         : Shoes
+Cost Price      : ₹700
+Competitor Prices: 1100,1000
+Profit Margin   : 20%
+Demand Level    : VERY_LOW
+Season          : NORMAL
+──────────────────────────────────
+Suggested Price : ₹945.0
+Expected Profit : ₹245.0
+Profit %        : 35.0%
+Satisfaction    : 100.0%
+Engine Used     : Engine: Rule-Based
+──────────────────────────────────
+Insight: Very low demand — clearance pricing (-10%).
+══════════════════════════════════
