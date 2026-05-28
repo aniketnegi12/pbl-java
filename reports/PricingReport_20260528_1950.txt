@@ -1,0 +1,19 @@
+══════════════════════════════════
+  AI PRICING REPORT
+  2026-05-28 19:50
+══════════════════════════════════
+Product         : addidas 
+Cost Price      : ₹10000
+Competitor Prices: 13000
+Profit Margin   : 40%
+Demand Level    : LOW
+Season          : OFF
+──────────────────────────────────
+Suggested Price : ₹14000.0
+Expected Profit : ₹4000.0
+Profit %        : 40.0%
+Satisfaction    : 100.0%
+Engine Used     : Engine: Rule-Based
+──────────────────────────────────
+Insight: Low demand — discount pricing (-5%). Off-season adjustment (-5%). (Adjusted to protect profit margin.)
+══════════════════════════════════

@@ -1,0 +1,19 @@
+══════════════════════════════════
+  AI PRICING REPORT
+  2026-05-28 15:45
+══════════════════════════════════
+Product         : nike shoes
+Cost Price      : ₹1000
+Competitor Prices: 1500
+Profit Margin   : 20%
+Demand Level    : HIGH
+Season          : PEAK
+──────────────────────────────────
+Suggested Price : ₹1701.0
+Expected Profit : ₹701.0
+Profit %        : 70.1%
+Satisfaction    : 100.0%
+Engine Used     : Engine: Rule-Based
+──────────────────────────────────
+Insight: High demand — premium pricing (+5%). Peak season boost (+8%).
+══════════════════════════════════

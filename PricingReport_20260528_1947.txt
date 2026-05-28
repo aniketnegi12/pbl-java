@@ -1,0 +1,19 @@
+══════════════════════════════════
+  AI PRICING REPORT
+  2026-05-28 19:47
+══════════════════════════════════
+Product         : phone
+Cost Price      : ₹7000
+Competitor Prices: 10000
+Profit Margin   : 40%
+Demand Level    : MEDIUM
+Season          : NORMAL
+──────────────────────────────────
+Suggested Price : ₹10000.0
+Expected Profit : ₹3000.0
+Profit %        : 42.86%
+Satisfaction    : 100.0%
+Engine Used     : Engine: Rule-Based
+──────────────────────────────────
+Insight: Moderate demand — competitive pricing.
+══════════════════════════════════

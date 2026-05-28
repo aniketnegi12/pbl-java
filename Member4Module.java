@@ -6,6 +6,9 @@ import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+// Import AI Pricing Engine
+import main.java.pricing.PricePredictor;
+
 
 // Rounded panel
 class RoundedPanel extends JPanel {
@@ -468,50 +471,53 @@ class DashboardPage extends JPanel {
         String demand = (String) cbDemand.getSelectedItem();
         String season = (String) cbSeason.getSelectedItem();
 
-        // Calculate suggested price based on demand and season
-        double suggestedPrice = avgCompetitor;
-        String insight = "";
-
-        // Apply demand multiplier
+        // Convert demand string to numeric level (0.0 to 1.0)
+        double demandLevel = 0.5; // default to MEDIUM
         switch (demand.toUpperCase()) {
-            case "VERY_HIGH": suggestedPrice *= 1.10; insight = "Very high demand — premium pricing (+10%)."; break;
-            case "HIGH":      suggestedPrice *= 1.05; insight = "High demand — premium pricing (+5%).";       break;
-            case "LOW":       suggestedPrice *= 0.95; insight = "Low demand — discount pricing (-5%).";       break;
-            case "VERY_LOW":  suggestedPrice *= 0.90; insight = "Very low demand — clearance pricing (-10%)."; break;
-            default:          suggestedPrice *= 1.00; insight = "Moderate demand — competitive pricing.";     break;
+            case "VERY_HIGH": demandLevel = 0.95; break;
+            case "HIGH":      demandLevel = 0.75; break;
+            case "LOW":       demandLevel = 0.25; break;
+            case "VERY_LOW":  demandLevel = 0.05; break;
+            default:          demandLevel = 0.50; break;
         }
 
-        // Apply season adjustment
+        // ========== USE AI PRICE PREDICTOR ==========
+        double suggestedPrice = PricePredictor.predictPrice(costPrice, competitors, profitMargin, demandLevel);
+        String insight = "🤖 AI Analysis: ";
+        
+        // Apply season adjustment on top of AI prediction
         if (season.equalsIgnoreCase("PEAK")) {
             suggestedPrice *= 1.08;
-            insight += " Peak season boost (+8%).";
+            insight += "Peak season boost applied (+8%).";
         } else if (season.equalsIgnoreCase("OFF")) {
             suggestedPrice *= 0.95;
-            insight += " Off-season adjustment (-5%).";
+            insight += "Off-season adjustment applied (-5%).";
+        } else {
+            insight += "Normal season pricing.";
         }
-
-        // Protect minimum profit margin
-        if (suggestedPrice < minPrice) {
-            suggestedPrice = minPrice;
-            insight += " (Adjusted to protect profit margin.)";
-        }
+        
         suggestedPrice = Math.round(suggestedPrice * 100.0) / 100.0;
+        
+        // Get AI explanation
+        String aiExplain = PricePredictor.getPredictionExplanation(costPrice, suggestedPrice, competitors, demandLevel);
+        insight += " " + aiExplain.split("\n")[0]; // Add first line of AI explanation
 
-        // Calculate profit and profit percentage
-        double profit = Math.round((suggestedPrice - costPrice) * 100.0) / 100.0;
-        double profitPct = Math.round((profit / costPrice) * 10000.0) / 100.0;
+        // Calculate profit and profit percentage using AI calculations
+        double profit = PricePredictor.calculateProfit(costPrice, suggestedPrice);
+        double profitPct = PricePredictor.calculateMarginPercent(costPrice, suggestedPrice);
+        profitPct = Math.round(profitPct * 100.0) / 100.0;
 
         // Calculate satisfaction score (how well price aligns with minimum requirement)
         double satisfaction = Math.min((suggestedPrice / minPrice) * 100, 100.0);
         satisfaction = Math.round(satisfaction * 100) / 100.0;
 
-        // Display results
+        // Display results with AI Engine label
         displayResult(
             "₹" + suggestedPrice,
             "₹" + profit,
             profitPct + "%",
             satisfaction + "%",
-            "Rule-Based",
+            "🤖 AI-Powered",
             insight
         );
     }
@@ -538,7 +544,9 @@ class DashboardPage extends JPanel {
 
     private void onSaveReport() {
         if (cardPrice.getValue().equals("—")) { err("Run a calculation first."); return; }
-        String fn = "PricingReport_" + new SimpleDateFormat("yyyyMMdd_HHmm").format(new Date()) + ".txt";
+        // Save to reports folder
+        new File("reports").mkdirs();
+        String fn = "reports/PricingReport_" + new SimpleDateFormat("yyyyMMdd_HHmm").format(new Date()) + ".txt";
         try (PrintWriter pw = new PrintWriter(new FileWriter(fn))) {
             pw.println("══════════════════════════════════");
             pw.println("  AI PRICING REPORT");
